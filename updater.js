@@ -1,17 +1,12 @@
 const { ipcMain } = require('electron');
 const {autoUpdater} = require("electron-updater");
 const ProgressBar = require('electron-progressbar');
+const { BrowserWindow } = require('electron')
 
 exports.initUpdater = (mainWindow) => {
 
     autoUpdater.requestHeaders = { "PRIVATE-TOKEN": "Yra7hy4NWZPvgsNFWWo_" };
     autoUpdater.autoDownload = true;
-    autoUpdater.setFeedURL({
-        provider: "generic",
-        url: "https://gitlab.com/_example_repo_/-/jobs/artifacts/master/raw/dist?job=build"
-    });
-
-
     autoUpdater.checkForUpdatesAndNotify();
     let progressBar;
     autoUpdater.on('checking-for-update', () => {
@@ -19,7 +14,8 @@ exports.initUpdater = (mainWindow) => {
     });
     autoUpdater.on('update-available', (info) => {
         // mainWindow.webContents.send('update_available');
-        if (progressBar) {
+        console.info('updaare')
+        if (!progressBar) {
             progressBar = new ProgressBar({
                 indeterminate: false,
                 title: 'Mise à jour - Piman Discuss',

@@ -28,7 +28,15 @@
   "build": "electron-builder build --mac --win --publish never",
   "deploy": "electron-builder build --mac --win --publish always",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/kawtarnouara/discuss-auto-update.git"
+    "type": "git",
+    "url": "https://github.com/kawtarnouara/discuss-auto-update.git"
+  },
+  "mac": {
+    "title": "Piman Discuss",
+    "hardenedRuntime": true
+  },
+  "mas": {
+    "entitlements": "build/entitlements.mac.plist",
+    "entitlementsInherit": "build/entitlements.mac.inherit.plist"
   }
 }

@@ -1,4 +1,7 @@
+directories:
+  output: app
+  buildResources: build
 appId: com.piman.dicuss
 publish:
   provider: github
-  token: 1362d1842fa001edce5c7aa89bf985e91750c08f
+  token: ed379c5dc4f00d8fce639aa583feb2d83b62c09d
