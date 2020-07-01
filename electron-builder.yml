@@ -2,6 +2,7 @@ directories:
   output: app
   buildResources: build
 appId: com.piman.dicuss
+productName: Piman Discuss
 publish:
   provider: github
-  token: ADD_YOUR_TOKEN_HERE
+  token: token
