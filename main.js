@@ -3,7 +3,7 @@ const {app, BrowserWindow, ipcMain, systemPreferences, protocol } = require('ele
 const { createWindow } = require('./windows');
 const { initUpdater } = require('./updater');
 
-let dev = true;
+let dev = false;
 
 let win;
 let splash;

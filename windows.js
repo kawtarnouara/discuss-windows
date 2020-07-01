@@ -120,7 +120,7 @@ exports.createWindow =  function(dev = true) {
     });
 
     win.on('close', function (event) {
-       //     app.quit();
+           app.quit();
     });
 
     const templateFull = getMenuAfterAuth(win);
