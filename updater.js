@@ -2,7 +2,7 @@ const { ipcMain } = require('electron');
 const {autoUpdater} = require("electron-updater");
 const ProgressBar = require('electron-progressbar');
 const { BrowserWindow } = require('electron')
-
+var dialogUpdate;
 exports.initUpdater = (mainWindow) => {
 
     autoUpdater.requestHeaders = { "PRIVATE-TOKEN": "Yra7hy4NWZPvgsNFWWo_" };
@@ -67,15 +67,17 @@ exports.initUpdater = (mainWindow) => {
         // }, 5000)
         // mainWindow.webContents.send('update_downloaded');
         progressBar.close();
-        updateDialog('Mise à jour - Piman Discuss', {
+         dialogUpdate = updateDialog('Mise à jour - Piman Discuss', {
             title: 'Mise à jour terminée',
             details: "Votre application a été mise à jour. Vous devez redémarrer l'application maintenant",
             withButtons: 1,
             success : 1
         });
+
     });
 
     ipcMain.on('restart_app', () => {
+        dialogUpdate.destroy();
         autoUpdater.quitAndInstall();
     });
 

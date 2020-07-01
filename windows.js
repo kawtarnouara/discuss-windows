@@ -120,9 +120,7 @@ exports.createWindow =  function(dev = true) {
     });
 
     win.on('close', function (event) {
-        if (process.platform !== 'darwin') {
-            app.quit();
-        }
+       //     app.quit();
     });
 
     const templateFull = getMenuAfterAuth(win);

@@ -4,4 +4,4 @@ directories:
 appId: com.piman.dicuss
 publish:
   provider: github
-  token: ed379c5dc4f00d8fce639aa583feb2d83b62c09d
+  token: ADD_YOUR_TOKEN_HERE
