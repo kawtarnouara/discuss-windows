@@ -6,9 +6,11 @@ exports.downloadManager = function () {
         "use strict";
         // console.log(app.getPath('downloads'), downloadItem.getURL(), downloadItem.getFilename(), downloadItem.getMimeType());
         // .replace : to trim all "/" characters from downloads path
-        let downloadPath = '/' + app.getPath('downloads').replace(/^\/+|\/+$/g, '') + '/' + downloadItem.getFilename();
+        const separator = process.platform === 'darwin' ? '/' :'\\';
+        let downloadPath = (process.platform === 'darwin' ? '/' : '') + app.getPath('downloads').replace(/^\/+|\/+$/g, '') + separator + downloadItem.getFilename();
         const fs = require('fs');
-        const downloadFolder = '/' + app.getPath('downloads').replace(/^\/+|\/+$/g, '') + '/';
+
+        const downloadFolder = (process.platform === 'darwin' ? '/' : '')  + app.getPath('downloads').replace(/^\/+|\/+$/g, '') + separator;
         let downloadFileName = downloadItem.getFilename();
         let downloadFilePath;
         try {
@@ -31,6 +33,7 @@ exports.downloadManager = function () {
         }
         console.log('download path : ' + downloadPath + ' - file exists : ' + fs.existsSync(downloadFilePath));
         downloadItem.setSavePath(downloadFilePath);
+
         // var util = require('util');
         // console.log("dowloader is called with event", util.inspect(downloadItem));
         var totalByte = downloadItem.getTotalBytes();
