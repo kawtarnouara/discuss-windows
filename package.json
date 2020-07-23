@@ -42,7 +42,7 @@
     "productName": "Piman Discuss",
     "publish": {
       "provider": "github",
-      "token": "41145c36c2504761421cd425cb4107ddd29d392a"
+      "token": ""
     }
   },
   "deploy": "electron-builder build --mac --win --publish always",
