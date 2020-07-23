@@ -4,6 +4,10 @@ const { downloadManager } = require('./download');
 const path = require('path');
 const urlM = require('url');
 const {autoUpdater} = require("electron-updater");
+const { dialog } = require('electron')
+
+
+
 
 exports.createWindow =  function(dev = true) {
     // Setup permission handler
@@ -19,6 +23,8 @@ exports.createWindow =  function(dev = true) {
     //     })
     // });
     // Create the browser window.
+
+
     let win = new BrowserWindow({
         // width: 600,
         // height: 600,
@@ -257,7 +263,8 @@ function getMenuBeforeAuth(win) {
             {label: "À propos de Piman Discuss", selector: "orderFrontStandardAboutPanel:"},
             {
                 label: "Vérifier les mises à jour",  click: function () {
-                    autoUpdater.checkForUpdatesAndNotify();
+                    showNoUpdatesDialog = true;
+                    autoUpdater.checkForUpdatesAndNotify()
                 }
             },
             {type: "separator"},
@@ -300,7 +307,8 @@ function getMenuAfterAuth(win) {
             {label: "À propos de Piman Discuss", selector: "orderFrontStandardAboutPanel:"},
             {
                 label: "Vérifier les mises à jour",  click: function () {
-                    autoUpdater.checkForUpdatesAndNotify();
+                    showNoUpdatesDialog = true;
+                    autoUpdater.checkForUpdatesAndNotify()
                 }
             },
             // { label: "Mon profil", selector: "CmdOrCtrl+,",  click: function() { shell.openExternal('https://discuss.piman2-0.fr/account/profil'); }},
