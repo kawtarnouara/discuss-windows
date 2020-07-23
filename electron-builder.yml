@@ -1,8 +1,0 @@
-directories:
-  output: app
-  buildResources: build
-appId: com.piman.dicuss
-productName: Piman Discuss
-publish:
-  provider: github
-  token: token

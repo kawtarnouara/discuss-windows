@@ -1,20 +1,34 @@
-const { notarize } = require('electron-notarize');
+const fs = require('fs');
+const path = require('path');
+var electron_notarize = require('electron-notarize');
 
-async function notarizing() {
+module.exports = async function (params) {
+    // Only notarize the app on Mac OS only.
+    if (process.platform !== 'darwin') {
+        return;
+    }
+    console.log('afterSign hook triggered', params);
 
+    // Same appId in electron-builder.
+    let appId = 'com.piman.dicuss'
 
-    const appName = 'Piman Discuss';
-
-    try {
-        await notarize({
-            appBundleId: 'com.piman-discuss.piman',
-            appPath: '/Users/kawtar/apps/discuss-electron-new/release-builds/Piman Discuss-darwin-x64/Piman Discuss.app',
-            appleId: "kawtar.nouara@gmail.com",
-            appleIdPassword: ""
-        });
-    } catch(err){
-        console.error('error ' , err)
+    let appPath = path.join(params.appOutDir, `${params.packager.appInfo.productFilename}.app`);
+    if (!fs.existsSync(appPath)) {
+        throw new Error(`Cannot find application at: ${appPath}`);
     }
 
+    console.log(`Notarizing ${appId} found at ${appPath}`);
+
+    try {
+        await electron_notarize.notarize({
+            appBundleId: appId,
+            appPath: appPath,
+            appleId: "kawtar.nouara@gmail.com",
+            appleIdPassword: "jrsn-ihch-zpqe-bgpw"
+        });
+    } catch (error) {
+        console.error(error);
+    }
+
+    console.log(`Done notarizing ${appId}`);
 };
-notarizing()
