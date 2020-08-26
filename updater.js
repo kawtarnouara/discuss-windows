@@ -7,7 +7,7 @@ var dialogUpdate;
 exports.showNoUpdatesDialog = false;
 exports.initUpdater = (mainWindow) => {
 
-    autoUpdater.requestHeaders = { "PRIVATE-TOKEN": "Yra7hy4NWZPvgsNFWWo_" };
+//s    autoUpdater.requestHeaders = { "PRIVATE-TOKEN": "Yra7hy4NWZPvgsNFWWo_" };
     autoUpdater.autoDownload = true;
     autoUpdater.checkForUpdatesAndNotify();
     let progressBar;
