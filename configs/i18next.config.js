@@ -25,12 +25,10 @@ const i18nextOptions = {
 
 i18n
     .use(i18nextBackend);
-console.log('------i18n {{ns}}')
 // initialize if not already initialized
 if (!i18n.isInitialized) {
     i18n
         .init(i18nextOptions);
-    console.log('------i18n' , i18nextOptions)
 }
 
 module.exports = i18n;
