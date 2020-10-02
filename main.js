@@ -12,6 +12,29 @@ let result;
 let mainurl;
 let mainev;
 // Create window on electron intialization
+if (process.platform === 'win32') {
+    app.setAsDefaultProtocolClient('piman-discuss');
+    const primaryInstance = app.requestSingleInstanceLock();
+    if (!primaryInstance) {
+        app.quit();
+        return;
+    }
+
+// The primary instance of the application will run this code, not the new  instance
+    app.on('second-instance', (event, args) => {
+        if (args.slice(1) && args.slice(1)[2]){
+        mainurl = args.slice(1)[2]
+            win.webContents.send('redirect-to-url', mainurl);
+        if(win){
+            if(win.isMinimized()){
+                win.restore();
+            }
+            win.focus();
+        }
+        }
+    });
+
+}
 app.on('open-url', function (ev, url) {
     mainev = ev; mainurl = url;
 
@@ -35,7 +58,11 @@ app.on('ready', async () => {
     // console.log('result ----------------' , result);
      console.log('token ----------------' , process.env.GH_TOKEN);
     splash = result.splash;
+    if (process.platform === 'win32' &&  process.argv.slice(1) &&  process.argv.slice(1)[0]){
+        mainurl = process.argv.slice(1)[0]
+    }
     win = result.win;
+
     win.webContents.on('did-finish-load', () => {
         if (mainurl) {
             win.webContents.send('redirect-to-url', mainurl);
