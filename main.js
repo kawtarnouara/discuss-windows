@@ -1,4 +1,4 @@
-const {app, BrowserWindow, ipcMain, systemPreferences, protocol, Menu } = require('electron');
+const {app, BrowserWindow, ipcMain, systemPreferences, protocol, Menu, ipcRenderer } = require('electron');
 
 const { createWindow, getMenuAfterAuth, getMenuBeforeAuth } = require('./windows');
 const { initUpdater } = require('./updater');
@@ -9,7 +9,13 @@ app.getLocale()
 let win;
 let splash;
 let result;
+let mainurl;
+let mainev;
 // Create window on electron intialization
+app.on('open-url', function (ev, url) {
+    mainev = ev; mainurl = url;
+
+});
 app.on('ready', async () => {
     i18n.on('loaded', (loaded) => {
         const lang = app.getLocale().startsWith('en') ? 'en' : app.getLocale().startsWith('fr') ? 'fr' : app.getLocale().startsWith('es') ? 'es' : 'fr'
@@ -30,6 +36,11 @@ app.on('ready', async () => {
      console.log('token ----------------' , process.env.GH_TOKEN);
     splash = result.splash;
     win = result.win;
+    win.webContents.on('did-finish-load', () => {
+        if (mainurl) {
+            win.webContents.send('redirect-to-url', mainurl);
+        }
+    });
 });
 
 

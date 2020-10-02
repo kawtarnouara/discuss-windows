@@ -1,7 +1,7 @@
 {
   "name": "discuss",
   "description": "Piman Discuss, La solution de communication privee, dediee, sur mesure et chiffree",
-  "version": "4.2.1",
+  "version": "4.2.4",
   "main": "./main.js",
   "author": "Piman Security",
   "scripts": {
@@ -43,7 +43,13 @@
       "buildResources": "build"
     },
     "productName": "Piman Discuss",
-    "afterSign": "/Users/kawtar/apps/discuss-electron-update/electron/notarize.js"
+    "afterSign": "/Users/kawtar/apps/discuss-electron-update/electron/notarize.js",
+    "protocols": [
+      {
+        "name": "Piman discuss",
+        "schemes": ["piman-discuss"]
+      }
+    ]
   },
   "deploy": "electron-builder build --mac --win --publish always",
   "repository": {
