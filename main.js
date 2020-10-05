@@ -24,7 +24,7 @@ if (process.platform === 'win32') {
     app.on('second-instance', (event, args) => {
         if (args.slice(1) && args.slice(1)[2]){
         mainurl = args.slice(1)[2]
-            win.webContents.send('redirect-to-url', mainurl);
+            win.webContents.send('open-window', mainurl);
         if(win){
             if(win.isMinimized()){
                 win.restore();

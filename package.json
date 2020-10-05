@@ -38,7 +38,8 @@
       "entitlements": "./build/entitlements.mac.plist",
       "entitlementsInherit": "./build/entitlements.mac.inherit.plist"
     },
-    "win":{
+    "win": {
+      "icon": "./build/icon.ico",
       "target": "msi"
     },
     "directories": {
@@ -46,11 +47,12 @@
       "buildResources": "build"
     },
     "productName": "Piman Discuss",
-    "afterSign": "/Users/kawtar/apps/discuss-electron-update/electron/notarize.js",
     "protocols": [
       {
         "name": "Piman discuss",
-        "schemes": ["piman-discuss"]
+        "schemes": [
+          "piman-discuss"
+        ]
       }
     ]
   },
@@ -64,8 +66,7 @@
     "hardenedRuntime": true,
     "gatekeeperAssess": false,
     "entitlements": "build/entitlements.mac.plist",
-    "entitlementsInherit": "build/entitlements.mac.inherit.plist",
-    "afterSign": "/Users/kawtar/apps/discuss-electron-update/electron/notarize.js"
+    "entitlementsInherit": "build/entitlements.mac.inherit.plist"
   },
   "mas": {
     "entitlements": "build/entitlements.mac.plist",
