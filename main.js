@@ -12,8 +12,9 @@ let result;
 let mainurl;
 let mainev;
 // Create window on electron intialization
-if (process.platform === 'win32') {
+if (process.platform === 'win32'){
     app.setAsDefaultProtocolClient('piman-discuss');
+
     const primaryInstance = app.requestSingleInstanceLock();
     if (!primaryInstance) {
         app.quit();
@@ -24,8 +25,8 @@ if (process.platform === 'win32') {
     app.on('second-instance', (event, args) => {
         if (args.slice(1) && args.slice(1)[2]){
         mainurl = args.slice(1)[2]
-            win.webContents.send('open-window', mainurl);
         if(win){
+            win.webContents.send('open-window', mainurl);
             if(win.isMinimized()){
                 win.restore();
             }
@@ -33,12 +34,22 @@ if (process.platform === 'win32') {
         }
         }
     });
-
 }
-app.on('open-url', function (ev, url) {
-    mainev = ev; mainurl = url;
 
+app.on('open-url', function (ev, url) {
+    ev.preventDefault();
+    mainev = ev; mainurl = url;
+    if (app.isReady()){
+        if(win){
+            win.webContents.send('open-window', mainurl);
+            if(win.isMinimized()){
+                win.restore();
+            }
+            win.focus();
+        }
+    }
 });
+
 app.on('ready', async () => {
     i18n.on('loaded', (loaded) => {
         const lang = app.getLocale().startsWith('en') ? 'en' : app.getLocale().startsWith('fr') ? 'fr' : app.getLocale().startsWith('es') ? 'es' : 'fr'

@@ -5,7 +5,7 @@ const { BrowserWindow } = require('electron')
 const { dialog } = require('electron')
 var dialogUpdate;
 var dialogCheckUpdate;
-exports.showNoUpdatesDialog = false;
+var showNoUpdatesDialog = exports.showNoUpdatesDialog = false;
 exports.initUpdater = (mainWindow) => {
 //s    autoUpdater.requestHeaders = { "PRIVATE-TOKEN": "Yra7hy4NWZPvgsNFWWo_" };
     autoUpdater.autoDownload = false;
@@ -37,7 +37,7 @@ exports.initUpdater = (mainWindow) => {
         }
         updateDialog('Mise à jour - Piman Discuss', {
             title: 'Mise à jour échouée',
-            details: "Impossible de terminer la mises à jour de votre application !",
+            details: "Impossible de terminer la mises à jour de votre application ! ",
             withButtons: 0,
             success : 0
         });

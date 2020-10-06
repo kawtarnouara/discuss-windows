@@ -1,6 +1,7 @@
 const {app, BrowserWindow, Menu, session } = require('electron');
 const ProgressBar = require('electron-progressbar');
 const { downloadManager } = require('./download');
+let { showNoUpdatesDialog } = require('./updater');
 const path = require('path');
 const urlM = require('url');
 const {autoUpdater} = require("electron-updater");
