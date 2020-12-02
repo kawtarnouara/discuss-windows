@@ -1,7 +1,7 @@
 {
   "name": "discuss",
   "description": "Piman Discuss, La solution de communication privee, dediee, sur mesure et chiffree",
-  "version": "4.2.5",
+  "version": "4.3.8",
   "main": "./main.js",
   "author": "PRIVATE DISCUSS",
   "scripts": {
@@ -40,14 +40,17 @@
     },
     "win": {
       "icon": "./build/icon.ico",
-      "target": "msi"
+      "target": "nsis",
+      "certificateSubjectName": "SECURED BY PIMAN SECURITY SAS",
+      "signingHashAlgorithms": ["sha256"],
+      "publisherName": "PRIVATE DISCUSS",
+      "signAndEditExecutable": true
     },
     "directories": {
       "output": "app",
       "buildResources": "build"
     },
     "productName": "Piman Discuss",
-    "afterSign": "/Users/kawtar/apps/discuss-electron-update/electron/notarize.js",
     "protocols": [
       {
         "name": "Piman discuss",
@@ -67,8 +70,7 @@
     "hardenedRuntime": true,
     "gatekeeperAssess": false,
     "entitlements": "build/entitlements.mac.plist",
-    "entitlementsInherit": "build/entitlements.mac.inherit.plist",
-    "afterSign": "/Users/kawtar/apps/discuss-electron-update/electron/notarize.js"
+    "entitlementsInherit": "build/entitlements.mac.inherit.plist"
   },
   "mas": {
     "entitlements": "build/entitlements.mac.plist",
