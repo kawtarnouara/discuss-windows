@@ -6,7 +6,7 @@ const path = require('path');
 const urlM = require('url');
 const {autoUpdater} = require("electron-updater");
 const { dialog } = require('electron')
-
+const  openAboutWindow = require("about-window").default;
 exports.createWindow =  function(i18n, dev = true) {
     // Setup permission handler
     session.defaultSession.setPermissionCheckHandler((webContents, permission) => {
@@ -258,7 +258,19 @@ function getMenuBeforeAuth(win, i18n) {
     return [{
         label: i18n.t('application'),
         submenu: [
-            {label: i18n.t('about'), selector: "orderFrontStandardAboutPanel:"},
+            {label: i18n.t('about'), click: function ()
+                {
+                    openAboutWindow({
+                        icon_path: `C:\\Users\\Piman\\Documents\\Discuss\\discuss-auto-update\\assets\\Icon-120x120.png`,
+                        product_name: 'Piman Discuss',
+                        copyright: 'Copyright © 2021 PRIVATE DISCUSS',
+                        css_path: `../../assets/custom-about.css`,
+                        win_options: {
+                            width: 290,
+                            height: 200
+                        }
+                    });
+                }},
             {
                 label: i18n.t('update'),  click: function () {
                     getUpdateInfo(true)
@@ -302,7 +314,19 @@ function getMenuAfterAuth (win, i18n) {
     return [{
         label: i18n.t('application'),
         submenu: [
-            {label: i18n.t('about'), selector: "orderFrontStandardAboutPanel:"},
+            {label: i18n.t('about'), click: function ()
+                {
+                    openAboutWindow({
+                        icon_path: `C:\\Users\\Piman\\Documents\\Discuss\\discuss-auto-update\\assets\\Icon-120x120.png`,
+                        product_name: 'Piman Discuss',
+                        copyright: 'Copyright © 2021 PRIVATE DISCUSS',
+                        css_path: `../../assets/custom-about.css`,
+                        win_options: {
+                            width: 290,
+                            height: 200
+                        }
+                    });
+                }},
             {
                 label: i18n.t('update'),  click: function () {
                     getUpdateInfo(true)
