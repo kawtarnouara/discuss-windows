@@ -3,14 +3,13 @@ const {autoUpdater} = require("electron-updater");
 const ProgressBar = require('electron-progressbar');
 const { BrowserWindow } = require('electron')
 const { dialog } = require('electron')
+var showNoUpdatesDialog = false;
 var dialogUpdate;
 var dialogCheckUpdate;
-var showNoUpdatesDialog = exports.showNoUpdatesDialog = false;
 let backendData;
 let autoUpdateVersion;
 exports.initUpdater = (mainWindow) => {
-    console.log('updaater')
-    getUpdateInfo();
+    getUpdateInfo(false);
 //s    autoUpdater.requestHeaders = { "PRIVATE-TOKEN": "Yra7hy4NWZPvgsNFWWo_" };
     autoUpdater.autoDownload = false;
     autoUpdater.checkForUpdatesAndNotify();
@@ -21,14 +20,14 @@ exports.initUpdater = (mainWindow) => {
     autoUpdater.on('update-available', (info) => {
         autoUpdateVersion = info.version;
         // mainWindow.webContents.send('update_available');
-      //  if (backendData && backendData.version.toString() === info.version.toString()){
+        if (backendData && backendData.version.toString() === info.version.toString()){
             const data = backendData;
             const version = data.version;
             const description = data.description;
             let force_update = data.force_update;
             const oldVersion = app.getVersion();
             const min_functionning_version = data.min_functionning_version;
-            const isFunctionning = true;
+            const isFunctionning = versionCompare(oldVersion, min_functionning_version);
             force_update = isFunctionning === -1 ? 1 : force_update;
             dialogCheckUpdate = checkupdateDialog('', {
                 version: version,
@@ -36,7 +35,13 @@ exports.initUpdater = (mainWindow) => {
                 details: description ? description : '',
                 force_update: force_update,
             });
-      //  }
+        } else  if (showNoUpdatesDialog){
+            dialog.showMessageBox({
+                title: 'Piman Discuss',
+                message: 'Piman Discuss est à jour.',
+                detail: 'Version ' + app.getVersion()
+            });
+        }
     });
     autoUpdater.on('update-not-available', () => {
 
@@ -95,8 +100,12 @@ exports.initUpdater = (mainWindow) => {
     ipcMain.on('restart_app', () => {
         dialogUpdate.destroy();
         dialogUpdate = null;
-        autoUpdater.quitAndInstall();
+        setImmediate(() => {
+            app.removeAllListeners('window-all-closed');
+            autoUpdater.quitAndInstall();
+        });
     });
+
 
     ipcMain.on('cancel_update', () => {
         dialogCheckUpdate.destroy();
@@ -188,12 +197,13 @@ function checkupdateDialog  (dialogTitle, options)   {
     return dialogFile;
 }
 
-function getUpdateInfo ()  {
+exports.getUpdateInfo = getUpdateInfo = (showNoUpdates)  => {
+    showNoUpdatesDialog = showNoUpdates;
     const { net } = require('electron')
     var body = JSON.stringify({ platform: 'desktop', os: 'windows'});
     const request = net.request({
         method: 'POST',
-        url: 'https://api.sand.private-discuss.com/v1.0/release/get',
+        url: 'https://api-piman.private-discuss.com/v1.0/release/get' ,
         protocol: 'https:',
     });
     request.on('response', (response) => {
@@ -201,7 +211,7 @@ function getUpdateInfo ()  {
         console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
 
         response.on('data', (chunk) => {
-            console.log(`BODY: ${JSON.parse(chunk.toString()).result.data}`)
+            console.log(`BODY: ${JSON.stringify(JSON.parse(chunk.toString()))}`)
             backendData = JSON.parse(chunk.toString()).result.data;
         });
         response.on('error', (error) => {

@@ -1,14 +1,11 @@
-const {app, BrowserWindow, Menu, session } = require('electron');
+const {app, BrowserWindow, Menu, session, ipcMain } = require('electron');
 const ProgressBar = require('electron-progressbar');
 const { downloadManager } = require('./download');
-let { showNoUpdatesDialog } = require('./updater');
+const {getUpdateInfo } = require('./updater');
 const path = require('path');
 const urlM = require('url');
 const {autoUpdater} = require("electron-updater");
 const { dialog } = require('electron')
-
-
-
 
 exports.createWindow =  function(i18n, dev = true) {
     // Setup permission handler
@@ -26,7 +23,7 @@ exports.createWindow =  function(i18n, dev = true) {
     // Create the browser window.
 
 
-    let win = new BrowserWindow({
+    let  win = new BrowserWindow({
         // width: 600,
         // height: 600,
         title: "Piman Discuss",
@@ -41,8 +38,8 @@ exports.createWindow =  function(i18n, dev = true) {
         webPreferences: {
             nodeIntegration: true,
             nodeIntegrationInWorker: true,
-            nativeWindowOpen: true
-            // enableRemoteModule: false,
+            nativeWindowOpen: true,
+            enableRemoteModule: true,
             // contextIsolation: true,
         },
         center: true,
@@ -264,7 +261,7 @@ function getMenuBeforeAuth(win, i18n) {
             {label: i18n.t('about'), selector: "orderFrontStandardAboutPanel:"},
             {
                 label: i18n.t('update'),  click: function () {
-                    showNoUpdatesDialog = true;
+                    getUpdateInfo(true)
                     autoUpdater.checkForUpdatesAndNotify()
                 }
             },
@@ -308,7 +305,7 @@ function getMenuAfterAuth (win, i18n) {
             {label: i18n.t('about'), selector: "orderFrontStandardAboutPanel:"},
             {
                 label: i18n.t('update'),  click: function () {
-                    showNoUpdatesDialog = true;
+                    getUpdateInfo(true)
                     autoUpdater.checkForUpdatesAndNotify()
                 }
             },
