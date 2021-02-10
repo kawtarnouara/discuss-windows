@@ -1,7 +1,7 @@
 {
   "name": "discuss",
   "description": "Piman Discuss, La solution de communication privee, dediee, sur mesure et chiffree",
-  "version": "4.3.8",
+  "version": "6.3.9",
   "main": "./main.js",
   "author": "PRIVATE DISCUSS",
   "scripts": {
@@ -14,6 +14,7 @@
     "electron-dl": "^1.12.0",
     "electron-progressbar": "^1.1.0",
     "electron-updater": "^4.0.0",
+    "electron-windows-badge": "^1.1.0",
     "fs": "0.0.1-security",
     "i18next": "^19.7.0",
     "i18next-node-fs-backend": "^2.1.3",
@@ -39,10 +40,13 @@
       "entitlementsInherit": "./build/entitlements.mac.inherit.plist"
     },
     "win": {
+      "verifyUpdateCodeSignature": "true",
       "icon": "./build/icon.ico",
       "target": "nsis",
       "certificateSubjectName": "SECURED BY PIMAN SECURITY SAS",
-      "signingHashAlgorithms": ["sha256"],
+      "signingHashAlgorithms": [
+        "sha256"
+      ],
       "publisherName": "PRIVATE DISCUSS",
       "signAndEditExecutable": true
     },
@@ -63,7 +67,7 @@
   "deploy": "electron-builder build --mac --win --publish always",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kawtarnouara/discuss-auto-update.git"
+    "url": "https://github.com/kawtarnouara/test-update-prompt.git"
   },
   "mac": {
     "title": "Piman Discuss",

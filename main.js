@@ -3,6 +3,7 @@ const {app, BrowserWindow, ipcMain, systemPreferences, protocol, Menu, ipcRender
 const { createWindow, getMenuAfterAuth, getMenuBeforeAuth } = require('./windows');
 const { initUpdater } = require('./updater');
 const i18n = require('./configs/i18next.config');
+const Badge = require('electron-windows-badge');
 
 let dev = false;
 app.getLocale()
@@ -73,7 +74,7 @@ app.on('ready', async () => {
         mainurl = process.argv.slice(1)[0]
     }
     win = result.win;
-
+    new Badge(win, {});
     win.webContents.on('did-finish-load', () => {
         if (mainurl) {
             win.webContents.send('redirect-to-url', mainurl);
@@ -101,6 +102,7 @@ app.on('activate', async () => {
     // ]);
     if (win === null) {
         win = await createMainWindow(dev)
+        new Badge(win, {});
     }
 });
 
@@ -127,10 +129,10 @@ ipcMain.on('online-status-changed', (event, status) => {
         splash.destroy();
     win.show();
     currentStatus = null;
-    const isAllowedMicrophone = await systemPreferences.askForMediaAccess('microphone');
-    const isAllowedCamera = await systemPreferences.askForMediaAccess('camera');
-    console.log("MICROHPHONE ALLOWED ------" + isAllowedMicrophone);
-    console.log("Camera ALLOWED ------" + isAllowedCamera);
+  //  const isAllowedMicrophone = await systemPreferences.getMediaAccessStatus('microphone');
+ //  const isAllowedCamera = await systemPreferences.getMediaAccessStatus('camera');
+ //  console.log("MICROHPHONE ALLOWED ------" + isAllowedMicrophone);
+ //   console.log("Camera ALLOWED ------" + isAllowedCamera);
     initUpdater(win);
 });
 } else if (status === 'offline' && currentStatus !== 'offline') {

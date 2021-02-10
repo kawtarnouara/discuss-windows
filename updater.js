@@ -9,6 +9,7 @@ var showNoUpdatesDialog = exports.showNoUpdatesDialog = false;
 let backendData;
 let autoUpdateVersion;
 exports.initUpdater = (mainWindow) => {
+    console.log('updaater')
     getUpdateInfo();
 //s    autoUpdater.requestHeaders = { "PRIVATE-TOKEN": "Yra7hy4NWZPvgsNFWWo_" };
     autoUpdater.autoDownload = false;
@@ -20,14 +21,14 @@ exports.initUpdater = (mainWindow) => {
     autoUpdater.on('update-available', (info) => {
         autoUpdateVersion = info.version;
         // mainWindow.webContents.send('update_available');
-        if (backendData && backendData.version.toString() === info.version.toString()){
+      //  if (backendData && backendData.version.toString() === info.version.toString()){
             const data = backendData;
             const version = data.version;
             const description = data.description;
             let force_update = data.force_update;
             const oldVersion = app.getVersion();
             const min_functionning_version = data.min_functionning_version;
-            const isFunctionning = versionCompare(oldVersion, min_functionning_version);
+            const isFunctionning = true;
             force_update = isFunctionning === -1 ? 1 : force_update;
             dialogCheckUpdate = checkupdateDialog('', {
                 version: version,
@@ -35,7 +36,7 @@ exports.initUpdater = (mainWindow) => {
                 details: description ? description : '',
                 force_update: force_update,
             });
-        }
+      //  }
     });
     autoUpdater.on('update-not-available', () => {
 
@@ -56,7 +57,7 @@ exports.initUpdater = (mainWindow) => {
         }
         updateDialog('Mise à jour - Piman Discuss', {
             title: 'Mise à jour échouée',
-            details: "Impossible de terminer la mises à jour de votre application ! ",
+            details: "Impossible de terminer la mises à jour de votre application ! " + JSON.stringify(err),
             withButtons: 0,
             success : 0
         });
@@ -189,10 +190,10 @@ function checkupdateDialog  (dialogTitle, options)   {
 
 function getUpdateInfo ()  {
     const { net } = require('electron')
-    var body = JSON.stringify({ platform: 'desktop', os: 'macos'});
+    var body = JSON.stringify({ platform: 'desktop', os: 'windows'});
     const request = net.request({
         method: 'POST',
-        url: 'https://api-piman.private-discuss.com/v1.0/release/get',
+        url: 'https://api.sand.private-discuss.com/v1.0/release/get',
         protocol: 'https:',
     });
     request.on('response', (response) => {
