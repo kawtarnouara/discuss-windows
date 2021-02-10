@@ -62,7 +62,7 @@ exports.initUpdater = (mainWindow) => {
         }
         updateDialog('Mise à jour - Piman Discuss', {
             title: 'Mise à jour échouée',
-            details: "Impossible de terminer la mises à jour de votre application ! " + JSON.stringify(err),
+            details: "Impossible de terminer la mises à jour de votre application ! ",
             withButtons: 0,
             success : 0
         });
