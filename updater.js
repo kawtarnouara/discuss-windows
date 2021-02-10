@@ -203,7 +203,7 @@ exports.getUpdateInfo = getUpdateInfo = (showNoUpdates)  => {
     var body = JSON.stringify({ platform: 'desktop', os: 'windows'});
     const request = net.request({
         method: 'POST',
-        url: 'https://api.sand.private-discuss.com/v1.0/release/get',
+        url: 'https://api-piman.private-discuss.com/v1.0/release/get' ,
         protocol: 'https:',
     });
     request.on('response', (response) => {
